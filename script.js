@@ -21,8 +21,8 @@ function parseFilesRecursively(directoryPath = './') {
             // Recursively parse files in subdirectory
             parseFilesRecursively(filePath);
         } else {
-            // Parse contents of file
-            if(filePath.endsWith('.adoc')) {
+            // Parse contents of file -> attendees.adoc
+            if(filePath.endsWith('attendees.adoc')) {
                 const fileContents = fs.readFileSync(filePath, 'utf8');
                 collectUsernames(fileContents);
             }
