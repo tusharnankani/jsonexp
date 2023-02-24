@@ -1,2 +1,5 @@
-- attendees.adoc files from `summary` directory of OurTechCommunity/catchup
-- node script.js
+- attendees.adoc files from `summary/sessions` directory of OurTechCommunity/catchup
+- node createTwitterHandleMap.js
+- map.json created
+- node mapToAttendee.js (for the respective path)
+- attendees.adoc file in respective path edited
