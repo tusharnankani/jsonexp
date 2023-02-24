@@ -6,7 +6,7 @@ let map = new Map();
 
 const DIRECTORY_PATH = './sessions'
 
-function parseFilesRecursively(directoryPath = './') {
+function parseFilesRecursively(directoryPath = DIRECTORY_PATH) {
     const files = fs.readdirSync(directoryPath);
   
     files.forEach((file) => {
@@ -104,4 +104,4 @@ function collectUsernames(data) {
     fs.writeFileSync('map.json', JSON.stringify(json_obj, null, 4));
 }
 
-parseFilesRecursively("./sessions");
+parseFilesRecursively(DIRECTORY_PATH);
