@@ -1,12 +1,12 @@
 const fs = require('fs');
 const path = require('path');
 
-let json_obj = [];
-let map = new Map();
+let twitterLinkJSON = [];
+let globalMap = new Map();
 
 const DIRECTORY_PATH = './sessions'
 
-function parseFilesRecursively(directoryPath = DIRECTORY_PATH) {
+function parseFilesRecursively(directoryPath = './') {
     const files = fs.readdirSync(directoryPath);
   
     files.forEach((file) => {
@@ -21,8 +21,8 @@ function parseFilesRecursively(directoryPath = DIRECTORY_PATH) {
             if(filePath.endsWith('attendees.adoc')) {
                 const fileContents = fs.readFileSync(filePath, 'utf8');
                 collectUsernames(fileContents);
+                // console.log(`Parsing file ${filePath} with contents: ${fileContents}`);
             }
-            // console.log(`Parsing file ${filePath} with contents: ${fileContents}`);
         }
     });
   }
@@ -78,30 +78,27 @@ function collectUsernames(data) {
     let newData = fileData.split('\n');
 
     for(let line of newData) {
-        let curr = line.split(" ");
-        if(curr[0].startsWith("https://")) {
-            let handle = curr[0].trim();
-            let name = curr
+        let currentLine = line.split(" ");
+        if(currentLine[0].startsWith("https://")) {
+            let twitterLink = currentLine[0].trim();
+            let fullName = currentLine
                         .splice(1)
                         .join(' ')
                         .trim();
 
-            if(json_obj.filter(item => (item.name === name)).length == 0) {
-                json_obj.push(
-                    {
-                        "name": name, 
-                        "handle": handle
-                    }
-                );
-            }
-
-            map.set(name, handle);
+            globalMap.set(fullName, twitterLink);
         }
     }
-    // console.log(json_obj);
-    // console.log(map);
+
+    globalMap.forEach((fullName, twitterLink) => {
+        // console.log(fullName, twitterLink);
+        twitterLinkJSON.push({
+            "name": fullName, 
+            "handle": twitterLink
+        });
+    })
     
-    fs.writeFileSync('map.json', JSON.stringify(json_obj, null, 4));
+    fs.writeFileSync('map.json', JSON.stringify(twitterLinkJSON, null, 4));
 }
 
 parseFilesRecursively(DIRECTORY_PATH);
