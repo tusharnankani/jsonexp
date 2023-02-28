@@ -1,12 +1,13 @@
 const fs = require('fs');
-const path = require('path');
 
-const json_obj = JSON.parse(fs.readFileSync('./map.json'));
+const twitterLinkJSON = JSON.parse(fs.readFileSync('./map.json'));
 
 const SESSION_ATTENDEES_PATH = "./sessions/000/attendees.adoc"
 
 function mapHandles(filePath = SESSION_ATTENDEES_PATH) {
+
     const fileContents = fs.readFileSync(filePath, 'utf8');
+
     /**
      * fileContents
      * 
@@ -48,7 +49,8 @@ function mapHandles(filePath = SESSION_ATTENDEES_PATH) {
     for(let i = FIRST_TWO_LINES; i < fileData.length - LAST_LINE_EMPTY; ++i) {
 
         let name = fileData[i].trim();
-        let nameHandleObject = json_obj.filter(item => (item.name === name))[0];
+        let nameHandleObject = twitterLinkJSON.filter(item => (item.name === name))[0];
+        
         /**
          * nameHandleObject = {json object}
          * 
